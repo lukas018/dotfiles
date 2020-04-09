@@ -1,0 +1,5 @@
+export TERMINAL='alacritty'
+export EDITOR='vim'
+
+setxkbmap -option ctrl:nocaps
+~/.config/polybar/launch.sh &

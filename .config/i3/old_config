@@ -26,9 +26,6 @@ for_window [class="^.*"] border pixel 2
 gaps inner  10
 gaps outer  0
 
-# Fonts
-font pango:Source Code Variable Semibold 13px
-
 # reload the configuration file
 bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
@@ -43,7 +40,7 @@ bindsym $super+comma exec pactl set-sink-volume 0 -5% #decrease sound volume
 bindsym $super+m exec pactl set-sink-mute 0 toggle # mute sound
 
 # start dmenu (a program launcher)
-# bindsym $super+Shift+d exec i3-dmenu-desktop --dmenu="dmenu -i -fn 'Noto Sans:size=8'"
+bindsym $super+Shift+d exec i3-dmenu-desktop --dmenu="dmenu -i -fn 'Noto Sans:size=8'"
 
 # The combination of xss-lock, nm-applet and pactl is a popular choice, so
 # they are included here as an example. Modify as you see fit.
@@ -198,8 +195,7 @@ client.placeholder      $bg     $bg     $fg  $bg       $bg
 client.background        $bg
 
 # PROTIP: You can also dynamically set dmenu's colors this way:
-# bindsym $mod+d exec dmenu_run -nb "$bg2" -nf "$fg" -sb "$fg" -sf "$bg2" -fn "Source Code Variable:style=Semibold:size=10"
-bindsym $mod+d exec rofi -lines 12 -padding 18 -width 60 -location 0 -show drun -sidebar-mode -columns 3
+bindsym $mod+d exec dmenu_run -nb "$bg2" -nf "$fg" -sb "$fg" -sf "$bg2" -fn "Source Code Variable:style=Semibold:size=10"
 
 
 set $mode_gaps Gaps: (o) outer, (i) inner
@@ -226,7 +222,6 @@ mode "$mode_gaps_inner" {
         bindsym Return mode "default"
         bindsym Escape mode "default"
 }
-
 mode "$mode_gaps_outer" {
         bindsym plus  gaps outer current plus 5
         bindsym minus gaps outer current minus 5
@@ -239,15 +234,16 @@ mode "$mode_gaps_outer" {
         bindsym Return mode "default"
         bindsym Escape mode "default"
 
+
 }
 
 #autostart
-exec --no-startup-id $HOME/.fehbg
-exec --no-startup-id compton -b
-exec_always --no-startup-id $HOME/.config/polybar/scripts/launch_polybar.sh
 exec --no-startup-id xsettingsd &
+exec --no-startup-id compton -b
 exec_always "setxkbmap -model pc104 -layout us,se -variant ,, -option grp:alt_shift_toggle"
 
+exec --no-startup-id wal-tile "$(< "${HOME}/.cache/wal/wal")"
+exec --no-startup-id "${HOME}/.config/polybar/scripts/launch_polybar.sh &"
 
 # Use pactl to adjust volume in PulseAudio.
 # set $refresh_i3status killall -SIGUSR1 i3status
@@ -257,4 +253,3 @@ bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ to
 bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
 
 bindsym $mod+Shift+p exec /home/luklun/.profile
-exec_always wal -R

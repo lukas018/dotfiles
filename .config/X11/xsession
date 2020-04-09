@@ -1,0 +1,4 @@
+export TERMINAL='alacritty'
+export EDITOR='vim'
+wal-tile "$(< "${HOME}/.cache/wal/wal")"
+~/.config/polybar/scripts/launch_polybar.sh &
