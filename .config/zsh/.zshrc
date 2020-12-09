@@ -1,19 +1,35 @@
-[[ -e ~/.profile ]] && emulate sh -c 'source ~/.profile'
-# If you come from bash you might have to change your $PATH.
+# Import colorscheme from wal
+if [[ $TERM = eterm-color ]]; then
+    unset zle_bracketed_paste
+elif [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
+    unset zle_bracketed_paste
+else
+    source ~/.cache/wal/colors-tty.sh
+    (cat ~/.cache/wal/sequences &)
+fi
 
-export PATH=$HOME/.emacs.d/bin/:$PATH
-export PATH=$HOME/.local/bin/:$PATH
+# If you come from bash you might have to change your $PATH.
+export PATH=$HOME/bin:/usr/local/bin:$PATH
+
+# Add emacs to our path
+export PATH=$HOME/.emacs.d/bin:$PATH
+
+# Add npm to our path
+export PATH=$HOME/.local/share/npm/bin:$PATH
+
 
 # Path to your oh-my-zsh installation.
-export ZSH="$HOME/Repos/oh-my-zsh"
-
+export ZSH=$HOME/Repos/oh-my-zsh
+export PATH=$HOME/.emacs.d/bin/:$PATH
+export PATH=$HOME/.local/bin/:$PATH
+export PATH=$HOME/.cargo/bin/:$PATH
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
-# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
+# See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 ZSH_THEME="bira"
-(cat ~/.cache/wal/sequences &)
+
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
 # a theme from this variable instead of looking in ~/.oh-my-zsh/themes/
@@ -49,7 +65,7 @@ ZSH_THEME="bira"
 # ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
-COMPLETION_WAITING_DOTS="true"
+# COMPLETION_WAITING_DOTS="true"
 
 # Uncomment the following line if you want to disable marking untracked files
 # under VCS as dirty. This makes repository status check for large repositories
@@ -78,7 +94,7 @@ source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
- export MANPATH="/usr/local/man:$MANPATH"
+# export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
@@ -101,14 +117,39 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+# export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+PATH=$JAVA_HOME/bin:$PATH
 
-# add vim configurations
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/home/luklun/anaconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/home/luklun/anaconda3/etc/profile.d/conda.sh" ]; then
+        . "/home/luklun/anaconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/home/luklun/anaconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+
+
+PATH="/home/luklun/perl5/bin${PATH:+:${PATH}}"; export PATH;
+PERL5LIB="/home/luklun/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
+PERL_LOCAL_LIB_ROOT="/home/luklun/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
+PERL_MB_OPT="--install_base \"/home/luklun/perl5\""; export PERL_MB_OPT;
+PERL_MM_OPT="INSTALL_BASE=/home/luklun/perl5"; export PERL_MM_OPT;
+
+# TexLive path
+PATH=/usr/local/texlive/2019/bin/x86_64-linux:$PATH
+
+PATH=/usr/luklun/bin:$PATH
+
+# vi mode
 bindkey -v
-
-wal-tile() {
-    wal -n -i "$@"
-    feh --bg-fill "$(< "${HOME}/.cache/wal/wal")"
-}
+export KEYTIMEOUT=1
 
 # Use vim keys in tab complete menu:
 bindkey -M menuselect 'h' vi-backward-char
@@ -117,26 +158,11 @@ bindkey -M menuselect 'l' vi-forward-char
 bindkey -M menuselect 'j' vi-down-line-or-history
 bindkey -v '^?' backward-delete-char
 
-export KEYTIMEOUT=1
-
-# Updates editor information when the keymap changes.
-# function zle-keymap-select() {
-#  zle reset-prompt
-#  zle -R
-# }
-
-#zle -N zle-keymap-select
-
-
 # Change cursor shape for different vi modes.
 function zle-keymap-select {
-  zle reset-prompt
-  zle -R
-
   if [[ ${KEYMAP} == vicmd ]] ||
      [[ $1 = 'block' ]]; then
     echo -ne '\e[1 q'
-
   elif [[ ${KEYMAP} == main ]] ||
        [[ ${KEYMAP} == viins ]] ||
        [[ ${KEYMAP} = '' ]] ||
@@ -146,42 +172,39 @@ function zle-keymap-select {
 }
 
 zle -N zle-keymap-select
-
-function vi_mode_prompt_info() {
-  echo "${${KEYMAP/vicmd/[% NORMAL]%}/(main|viins)/[% INSERT]%}"
-}
-
-# define right prompt, regardless of whether the theme defined it
-#RPS1='$(vi_mode_prompt_info)'
-#RPS2=$RPS1
-
+if [[ $TERM = eterm-color ]]; then
+else
 zle-line-init() {
     zle -K viins # initiate `vi insert` as keymap (can be removed if `bindkey -V` has been set elsewhere)
     echo -ne "\e[5 q"
 }
 zle -N zle-line-init
+echo -ne '\e[5 q' # Use beam shape cursor on startup.
+preexec() { echo -ne '\e[5 q' ;} # Use beam shape cursor for each new prompt.
+fi
+# Enable colors and change prompt:
+autoload -U colors && colors
 
-# Use beam shape cursor on startup.
-echo -ne '\e[5 q'
-# Use beam shape cursor for each new prompt.
-preexec() { echo -ne '\e[5 q' ;}
+# History in cache directory:
+# HISTSIZE=10000
+# SAVEHIST=10000
+# HISTFILE=~/.cache/zsh/history
 
-# Load syntax highlighting
-source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null
-alias config='/usr/bin/git --git-dir=/home/lukas/.cfg/ --work-tree=/home/lukas'
+# Call neofetch
+# neofetch
 
-
-source ~/.cache/wal/colors.sh
-export color0_alpha="#22${color0/'#'}"
-export color1_alpha="#22${color1/'#'}"
-export color2_alpha="#22${color2/'#'}"
-export color4_alpha="#22${color4/'#'}"
-export color6_alpha="#22${color6/'#'}"
-export color8_alpha="#22${color8/'#'}"
-export color10_alpha="#22${color10/'#'}"
-export color12_alpha="#22${color12/'#'}"
-export color14_alpha="#22${color14/'#'}"
-export color16_alpha="#22${color16/'#'}"
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 
-# HISTFILE="$ZDODIR/zsh_history"
+# Go to normal mode
+bindkey jk vi-cmd-mode
+#bindkey -M jk vi-movement-mode
+export PATH=$HOME/Scripts:$PATH
+
+
+# Texlive aliases
+alias tlmgr='/usr/share/texmf-dist/scripts/texlive/tlmgr.pl --usermode'
+
+# Enables history search
+bindkey "^[[A" history-beginning-search-backward
+bindkey "^[[B" history-beginning-search-forward

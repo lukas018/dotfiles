@@ -49,10 +49,67 @@
 ;; This is required for some packages whose default branch isn't 'master' (which
 ;; our package manager can't deal with; see raxod502/straight.el#279)
 ;(package! builtin-package :recipe (:branch "develop"))
+
+
+;;(package! ox-reveal)
 (package! org-fragtog)
+(package! org-ref)
+(package! org-re-reveal)
+(package! org-re-reveal-ref)
+
+;; ewal-related and styling packages
 (package! ewal)
 (package! ewal-spacemacs-themes)
 (package! ewal-evil-cursors)
 (package! spaceline)
-;; Aggresive tabbing
-(package! aggressive-indent)
+
+;; Dired related configurations
+(package! peep-dired)
+(package! dired-narrow)
+(package! dired-subtree)
+
+;; Distrotube recommended packages
+(package! dmenu)
+(package! elfeed)
+(package! emms)
+(package! emojify)
+(package! evil-tutor)
+(package! mastodon)
+(package! md4rd)
+(package! org-bullets)
+(package! peep-dired)
+(package! rainbow-mode)
+(package! sublimity)
+(package! tldr)
+(package! wc-mode)
+(package! writeroom-mode)
+
+(package!  exwm)
+(package! ivy-posframe)
+
+(package! bluetooth)
+(package! frog-jump-buffer)
+(package! neotree)
+
+(package! elegant-emacs
+  :recipe (:host github :repo "rougier/elegant-emacs"))
+(package! telega)
+(package! emacs-webkit
+  :recipe (:host github
+           :repo "akirakyle/emacs-webkit"
+           :files (:defaults "Makefile" "*.h" "*.c" "*.js" "*.css" "*.so")
+           :branch "main"))
+
+(package! helm-exwm)
+
+(package! ivy-exwm
+  :recipe (:host github
+           :repo "pjones/ivy-exwm"
+           :branch "master"))
+
+(package! exec-path-from-shell)
+(package! desktop-environment)
+(package! pyvenv)
+
+
+(package! vue-mode)
