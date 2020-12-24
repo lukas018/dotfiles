@@ -113,3 +113,16 @@
 
 
 (package! vue-mode)
+(package! math-preview
+  :recipe (:host gitlab
+           :repo "matsievskiysv/math-preview"
+           ))
+(package! nano-emacs
+  :recipe (:host github :repo "rougier/nano-emacs"))
+
+(package! eaf
+  :recipe (:host github
+           :repo "manateelazycat/emacs-application-framework"
+           :files(:defaults "*.el" "*.py" "app" "core" "docker")
+           :no-byte-compile t
+           ))

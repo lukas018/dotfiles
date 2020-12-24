@@ -9,11 +9,31 @@
 ;; Consider _ as a word-character
 (modify-syntax-entry ?_ "w")
 
+;; (setq doom-theme 'nil)
+;; (require 'disp-table)
+;; (require 'nano-theme-dark)
+;; (require 'nano-help)
+;; (require 'nano-modeline)
+;; (require 'nano-layout)
+
+(setq doom-theme 'doom-city-lights)
+
+(map! :leader
+      :desc "Load new theme"
+      "h t" 'counsel-load-theme)
+
 (turn-off-auto-fill)
 
 ;; Add an extra line to work around bug in which-key imprecise
 (defun add-which-key-line (f &rest r) (progn (apply f (list (cons (+ 1 (car (car r))) (cdr (car r)))))))
 (advice-add 'which-key--show-popup :around #'add-which-key-line)
+
+(setq display-line-numbers-type nil)
+(setq display-line-numbers nil)
+
+(map! :leader
+      :desc "Toggle truncate lines"
+      "t t" 'toggle-truncate-lines)
 
 (map! :leader
       :desc "List bookmarks"
@@ -50,12 +70,6 @@
 ;; Idk why but these things seem necessary
 (add-hook 'dired-subtree-hook 'evil-normalize-keymaps)
 
-(setq doom-theme 'doom-city-lights)
-
-(map! :leader
-      :desc "Load new theme"
-      "h t" 'counsel-load-theme)
-
 (custom-set-variables
  '(elfeed-feeds
    (quote
@@ -87,7 +101,7 @@
           :desc "Evaluate org buffer" "e" 'org-babel-execute-buffer
           :desc "Evaluate org code block" "b" 'org-babel-execute-src-block)))
 
-(setq doom-font (font-spec :family "Source Code Pro" :size 12))
+(setq doom-font (font-spec :family "RobotoMono" :size 12))
 (after! doom-themes
   (setq doom-themes-enable-bold t
         doom-themes-enable-italic t))
@@ -100,39 +114,6 @@
       (:prefix ("v" . "ivy")
         :desc "Ivy push view" "p" 'ivy-push-view
         :desc "Ivy switch view" "s" 'ivy-switch-view))
-
-(require 'ivy-posframe)
-(after! ivy-posframe
-  (setq ivy-posframe-display-functions-alist
-      '((counsel-linux-app     . ivy-posframe-display-at-frame-center)
-        (nil               . ivy-posframe-display)))
-  (setq ivy-posframe-parameters
-      '((left-fringe . 8)
-        (right-fringe . 8)))
-  (setq ivy-posframe-width 150
-      ivy-posframe-height 30)
-  (setq ivy-posframe-parameters '((parent-frame nil))))
-
-(defun ivy-posframe-get-size ()
-  "The default functon used by `ivy-posframe-size-function'."
-  (list
-    :height ivy-posframe-height
-    :width ivy-posframe-width))
-    ;; :min-height ivy-posframe-height
-    ;; :min-width ivy-posframe-width))
-   ;; :min-height (or ivy-posframe-min-height (+ ivy-height 1))
-   ;; :min-width (or ivy-posframe-min-width (round (* (frame-width) 0.62)))))
-
-(ivy-posframe-mode 1)
-
-(map! :leader
-      (:prefix ("o")
-        :desc "Launch linux exe" "x" 'counsel-linux-app))
-
-(setq display-line-numbers-type 'relative)
-(map! :leader
-      :desc "Toggle truncate lines"
-      "t t" 'toggle-truncate-lines)
 
 (require 'ox-groff)
 
@@ -564,8 +545,6 @@ When ARG is non-nil, ignore NoDisplay property in *.desktop files."
         (when (daemonp)
         (exec-path-from-shell-initialize)))
 
-(add-to-list 'tramp-remote-path 'tramp-own-remote-path)
-
 (use-package pyvenv
   :ensure t
   :config
@@ -594,3 +573,9 @@ When ARG is non-nil, ignore NoDisplay property in *.desktop files."
                      :server-id 'pyls-remote))
 
 (use-package vue-mode)
+
+(use-package! eaf
+  :config
+  (require 'eaf-evil)
+  (setq eaf-browser-continue-where-left-off t)
+  (setq eaf-evil-leader-key "SPC"))

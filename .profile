@@ -1,5 +1,5 @@
 export TERMINAL='alacritty'
-export EDITOR='emacs'
+export EDITOR='emacsclient'
 
 # If not running interactively, don't do anything
 # [[ $- != *i* ]] && return
@@ -25,3 +25,15 @@ unset __conda_setup
 
 export PATH="/home/lukas/.local/bin/scripts:$PATH"
 export PATH="$XDG_DATA_HOME/miniconda3/bin:$PATH"
+export PATH="$HOME/.local/bin/statusbar:$PATH"
+setxkbmap -option caps:ctrl_modifier
+# .local/bin/wal -R
+# launch-polybar
+
+export PATH="$HOME/.cargo/bin:$PATH"
+
+# include Mycroft commands
+source ~/.profile_mycroft
+
+setxkbmap -option caps:ctrl_modifier
+setxkbmap -model pc104 -layout us,se -variant ,, -option grp:alt_shift_toggle

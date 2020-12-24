@@ -7,30 +7,45 @@
 
 * TABLE OF CONTENTS :toc:
 - [[#about-this-config][ABOUT THIS CONFIG]]
-- [[#words-in-emacs][WORDS in Emacs]]
-- [[#auto-fill][AUTO-FILL]]
+- [[#misc][MISC]]
+  - [[#add-extra-leader][Add Extra Leader]]
+  - [[#words-in-emacs][WORDS in Emacs]]
+  - [[#disabling-doom-theme-and-using-emacs-nano][Disabling Doom Theme and using Emacs NANO]]
+  - [[#doom-theme][DOOM THEME]]
+  - [[#auto-fill][AUTO-FILL]]
+  - [[#which-key][WHICH-KEY]]
 - [[#bookmarks-and-buffers][BOOKMARKS AND BUFFERS]]
 - [[#dired][DIRED]]
-- [[#doom-theme][DOOM THEME]]
 - [[#elfeed][ELFEED]]
 - [[#evaluate-elisp-expressions][EVALUATE ELISP EXPRESSIONS]]
-- [[#eww][EWW]]
 - [[#fonts][FONTS]]
 - [[#ivy][IVY]]
 - [[#line-settings][LINE SETTINGS]]
 - [[#manpages][MANPAGES]]
 - [[#mastodon][MASTODON]]
-- [[#md4rd][MD4RD]]
 - [[#neotree][NEOTREE]]
 - [[#open-specific-files][OPEN SPECIFIC FILES]]
 - [[#org-mode][ORG MODE]]
 - [[#registers][REGISTERS]]
-- [[#remote-connections][REMOTE CONNECTIONS]]
 - [[#shells][SHELLS]]
 - [[#splits][SPLITS]]
 - [[#sublimity][SUBLIMITY]]
 - [[#winner-mode][WINNER MODE]]
 - [[#pdf][PDF]]
+- [[#frog-jump-buffer][Frog-Jump-Buffer]]
+- [[#modified-window-splits][Modified window splits]]
+- [[#exwm][EXWM]]
+  - [[#prepare-setup][Prepare Setup]]
+  - [[#initialize-the-actual-wm][Initialize the actual WM]]
+  - [[#helm-exwm][HELM-EXWM]]
+  - [[#additional-key-configurations][Additional Key Configurations]]
+  - [[#desktop-environment][Desktop Environment]]
+- [[#telegram][Telegram]]
+- [[#elfeed-1][Elfeed]]
+- [[#misc-1][MISC]]
+  - [[#extract-system-variables][Extract system variables]]
+- [[#python-environemt][PYTHON ENVIRONEMT]]
+- [[#other-languages][Other languages]]
 
 * ABOUT THIS CONFIG
 This is my personal Doom Emacs config.  Doom Emacs is a distribution of Emacs that uses the "evil" keybindings (Vim keybindings) and includes a number of nice extensions and a bit of configuration out of the box.  I am maintaing this config not just for myself, but also for those that want to explore some of what is possible with Emacs.  I will add a lot of examples of plugins and settings, some of them I may not even use personally.  I do this because many people following me on YouTube look at my configs as "documentation".
@@ -51,11 +66,35 @@ We set control space to an extra leader.
 
 ** WORDS in Emacs
 
-    By default Emacs doesn't consider underscores to be word-characters. We change this to make evil-mode feel more like *vim*.
-    #+BEGIN_SRC emacs-lisp
+By default Emacs doesn't consider underscores to be word-characters. We change this to make evil-mode feel more like *vim*.
+#+BEGIN_SRC emacs-lisp
     ;; Consider _ as a word-character
     (modify-syntax-entry ?_ "w")
-    #+END_SRC
+#+END_SRC
+
+** Linenumbers
+
+** Disabling Doom Theme and using Emacs NANO
+#+begin_src emacs-lisp
+;; (setq doom-theme 'nil)
+;; (require 'disp-table)
+;; (require 'nano-theme-dark)
+;; (require 'nano-help)
+;; (require 'nano-modeline)
+;; (require 'nano-layout)
+#+end_src
+
+
+** DOOM THEME
+Allows us to change emacs theme using <Leader> h t
+#+BEGIN_SRC emacs-lisp
+(setq doom-theme 'doom-city-lights)
+
+(map! :leader
+      :desc "Load new theme"
+      "h t" 'counsel-load-theme)
+#+END_SRC
+
 
 ** AUTO-FILL
 Auto-fill is a god-damn scourge. Lets disable it globally.
@@ -64,7 +103,7 @@ Auto-fill is a god-damn scourge. Lets disable it globally.
     (turn-off-auto-fill)
 #+end_src
 
-** WHICH-KEY
+** WHICH-KEY Mode Line Fix
     For some reason the doom mode-line sometimes covers the lower row of the which-key buffer (for certain settings).
     This setting fixes the problem to some extent by adding an extra line worth of height to the which-key buffer.
 
@@ -73,6 +112,20 @@ Auto-fill is a god-damn scourge. Lets disable it globally.
     (defun add-which-key-line (f &rest r) (progn (apply f (list (cons (+ 1 (car (car r))) (cdr (car r)))))))
     (advice-add 'which-key--show-popup :around #'add-which-key-line)
 #+end_src
+
+* LINE SETTINGS
+Disable line numbers by default.
+Doom by default uses 'SPC t l' for changing between line styles.
+Use 'SPC t t' for toggle-truncate-lines.
+
+#+BEGIN_SRC emacs-lisp
+(setq display-line-numbers-type nil)
+(setq display-line-numbers nil)
+
+(map! :leader
+      :desc "Toggle truncate lines"
+      "t t" 'toggle-truncate-lines)
+#+END_SRC
 
 * BOOKMARKS AND BUFFERS
 Doom Emacs uses 'SPC b' for keybindings related to bookmarks and buffers.  Bookmarks are somewhat like registers in that they record positions you can jump to.  Unlike registers, they have long names, and they persist automatically from one Emacs session to the next. The prototypical use of bookmarks is to record where you were reading in various files.  Regarding /buffers/, the text you are editing in Emacs resides in an object called a /buffer/. Each time you visit a file, a buffer is used to hold the file’s text. Each time you invoke Dired, a buffer is used to hold the directory listing.
@@ -128,18 +181,6 @@ Dired-subtree enables expanding directories. These keybindings attempts emulate 
 (add-hook 'dired-subtree-hook 'evil-normalize-keymaps)
 #+end_src
 
-* DOOM THEME
-Setting the theme to doom-one.  To try out new themes, I set a keybinding for counsel-load-theme with 'SPC h t'.
-
-#+BEGIN_SRC emacs-lisp
-(setq doom-theme 'doom-city-lights)
-
-(map! :leader
-      :desc "Load new theme"
-      "h t" 'counsel-load-theme)
-#+END_SRC
-
-
 * ELFEED
 An RSS newsfeed reader for Emacs.
 
@@ -190,7 +231,7 @@ Settings related to fonts within Doom Emacs:
 + 'font-lock-keyword-face' -- for keywords with special significance, like ‘for’ and ‘if’ in C.
 
 #+BEGIN_SRC emacs-lisp
-(setq doom-font (font-spec :family "Source Code Pro" :size 12))
+(setq doom-font (font-spec :family "RobotoMono" :size 12))
 (after! doom-themes
   (setq doom-themes-enable-bold t
         doom-themes-enable-italic t))
@@ -210,49 +251,39 @@ Ivy is a generic completion mechanism for Emacs.  By default, Doom Emacs does no
         :desc "Ivy switch view" "s" 'ivy-switch-view))
 #+END_SRC
 
-ivy-posframe allows us to add a very nice
+# ivy-posframe allows us to add floating windows
 
-#+begin_src emacs-lisp :tangle yes
+# #+begin_src emacs-lisp :tangle yes
 
-(require 'ivy-posframe)
-(after! ivy-posframe
-  (setq ivy-posframe-display-functions-alist
-      '((counsel-linux-app     . ivy-posframe-display-at-frame-center)
-        (nil               . ivy-posframe-display)))
-  (setq ivy-posframe-parameters
-      '((left-fringe . 8)
-        (right-fringe . 8)))
-  (setq ivy-posframe-width 150
-      ivy-posframe-height 30)
-  (setq ivy-posframe-parameters '((parent-frame nil))))
+# (require 'ivy-posframe)
+# (after! ivy-posframe
+#   (setq ivy-posframe-display-functions-alist
+#       '((counsel-linux-app     . ivy-posframe-display-at-frame-center)
+#         (nil               . ivy-posframe-display)))
+#   (setq ivy-posframe-parameters
+#       '((left-fringe . 8)
+#         (right-fringe . 8)))
+#   (setq ivy-posframe-width 150
+#       ivy-posframe-height 30)
+#   (setq ivy-posframe-parameters '((parent-frame nil))))
 
-(defun ivy-posframe-get-size ()
-  "The default functon used by `ivy-posframe-size-function'."
-  (list
-    :height ivy-posframe-height
-    :width ivy-posframe-width))
-    ;; :min-height ivy-posframe-height
-    ;; :min-width ivy-posframe-width))
-   ;; :min-height (or ivy-posframe-min-height (+ ivy-height 1))
-   ;; :min-width (or ivy-posframe-min-width (round (* (frame-width) 0.62)))))
+# (defun ivy-posframe-get-size ()
+#   "The default functon used by `ivy-posframe-size-function'."
+#   (list
+#     :height ivy-posframe-height
+#     :width ivy-posframe-width))
+#     ;; :min-height ivy-posframe-height
+#     ;; :min-width ivy-posframe-width))
+#    ;; :min-height (or ivy-posframe-min-height (+ ivy-height 1))
+#    ;; :min-width (or ivy-posframe-min-width (round (* (frame-width) 0.62)))))
 
-(ivy-posframe-mode 1)
+# (ivy-posframe-mode 1)
 
-(map! :leader
-      (:prefix ("o")
-        :desc "Launch linux exe" "x" 'counsel-linux-app))
+# (map! :leader
+#       (:prefix ("o")
+#         :desc "Launch linux exe" "x" 'counsel-linux-app))
 
 #+end_src
-
-* LINE SETTINGS
-I display-line-numbers-type set to 'relative so I have line numbers displayed similarly to vim.  Doom Emacs uses 'SPC t' for "toggle" commands, so I choose 'SPC t t' for toggle-truncate-lines.
-
-#+BEGIN_SRC emacs-lisp
-(setq display-line-numbers-type 'relative)
-(map! :leader
-      :desc "Toggle truncate lines"
-      "t t" 'toggle-truncate-lines)
-#+END_SRC
 
 * MANPAGES
 
@@ -808,10 +839,10 @@ Instead, we set our own key configurations.
 #+end_src
 
 
-** Let tramp use remote path
-#+begin_src emacs-lisp
-(add-to-list 'tramp-remote-path 'tramp-own-remote-path)
-#+end_src
+# ** Let tramp use remote path
+# #+begin_src emacs-lisp
+# (add-to-list 'tramp-remote-path 'tramp-own-remote-path)
+# #+end_src
 
 * PYTHON ENVIRONEMT
 #+begin_src emacs-lisp
@@ -855,4 +886,14 @@ Python LSP over tramp
 Add support for Vue development
 #+begin_src emacs-lisp
 (use-package vue-mode)
+#+end_src
+
+* Testing
+
+#+begin_src emacs-lisp
+(use-package! eaf
+  :config
+  (require 'eaf-evil)
+  (setq eaf-browser-continue-where-left-off t)
+  (setq eaf-evil-leader-key "SPC"))
 #+end_src
