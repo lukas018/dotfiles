@@ -85,7 +85,7 @@ scrolling:
 
   # Number of lines the viewport will move for every line scrolled when
   # scrollback is enabled (history > 0).
-  multiplier: 3
+  multiplier: 10
 
   # Scroll to the bottom when new text is written to the terminal.
   #auto_scroll: false
@@ -112,7 +112,7 @@ font:
     family: Source Code Pro #Mononoki Nerd Font
 
     # The `style` can be specified to pick a specific face.
-    style: Semibold
+    style: SemiBold
 
   # Bold font face
   bold:
@@ -131,7 +131,7 @@ font:
     #
     # If the italic family is not specified, it will fall back to the
     # value specified for the normal font.
-    family: Source Code Pro
+    family: Source Code Pro #Source Code Pro
     # The `style` can be specified to pick a specific face.
     style: Italic
 
@@ -141,19 +141,19 @@ font:
     #
     # If the bold italic family is not specified, it will fall back to the
     # value specified for the normal font.
-    family: Source Code Pro
+    family: Source Code Pro # Source Code Pro
 
     # The `style` can be specified to pick a specific face.
-    style: Bold Italic
+    # style: Bold Italic
 
   # Point size
-  size: 8.0
+  size: 7
 
   # Offset is the extra space around each character. `offset.y` can be thought of
   # as modifying the line spacing, and `offset.x` as modifying the letter spacing.
   offset:
-    x: 1
-    y: 1
+    x: 0
+    y: 0
 
   # Glyph offset determines the locations of the glyphs within their cells with
   # the default being at the bottom. Increasing `x` moves the glyph to the right,
@@ -209,31 +209,58 @@ colors:
   # Colors which should be used to draw the selection area. If selection
   # background is unset, selection color will be the inverse of the cell colors.
   # If only text is unset the cell text color will remain the same.
+
+  # selection:
+  #   text: '0x282a36'
+  #   background: '0xbbc5ff'
   selection:
     text: '0x282a36'
     background: '0xbbc5ff'
 
-  # Normal colors
+  # # Normal colors
+  # normal:
+  #   black:   '0x282a36'
+  #   red:     '0xf07178'
+  #   green:   '0xc3e88d'
+  #   yellow:  '0xffcb6b'
+  #   blue:    '0x82aaff'
+  #   magenta: '0xc792ea'
+  #   cyan:    '0x89ddff'
+  #   white:   '0xd0d0d0'
+
   normal:
     black:   '0x282a36'
-    red:     '0xf07178'
+    red:     '0xff757f'
     green:   '0xc3e88d'
     yellow:  '0xffcb6b'
-    blue:    '0x82aaff'
-    magenta: '0xc792ea'
-    cyan:    '0x89ddff'
+    blue:    '0x3e68d7'
+    cyan:    '0x86e1fc'
     white:   '0xd0d0d0'
+    orange:  '0xfc7b7b'
+    magenta: '0xe1acff'
 
-  # Bright colors
+  # # Bright colors
+  # bright:
+  #   black:   '0x434758'
+  #   red:     '0xff8b92'
+  #   green:   '0xddffa7'
+  #   yellow:  '0xffe585'
+  #   blue:    '0x9cc4ff'
+  #   magenta: '0xe1acff'
+  #   cyan:    '0xa3f7ff'
+  #   white:   '0xffffff'
+
+
   bright:
     black:   '0x434758'
-    red:     '0xff8b92'
-    green:   '0xddffa7'
-    yellow:  '0xffe585'
-    blue:    '0x9cc4ff'
-    magenta: '0xe1acff'
-    cyan:    '0xa3f7ff'
+    red:     '0xff98a4'
+    green:   '0xc3e88d'
+    yellow:  '0xffc777'
+    blue:    '0x82aaff'
+    cyan:    '0xb4f9f8'
     white:   '0xffffff'
+    orange:  '0xff966c'
+    magenta: '0x80638e'
 
   # Dim colors
   #
@@ -290,7 +317,7 @@ colors:
 # Window opacity as a floating point number from `0.0` to `1.0`.
 # The value `0.0` is completely transparent and `1.0` is opaque.
 # background_opacity: 1.0
-background_opacity: 0.55
+background_opacity: 1.0
 
 selection:
   semantic_escape_chars: ",│`|:\"' ()[]{}<>\t"

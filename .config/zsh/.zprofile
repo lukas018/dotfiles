@@ -10,3 +10,5 @@ export BUNDLE_USER_PLUGIN="$XDG_DATA_HOME"/bundle
 export CARGO_HOME="$XDG_DATA_HOME"/cargo
 export ELINKS_CONFDIR="$XDG_CONFIG_HOME"/elinks
 export GNUPGHOME="$XDG_DATA_HOME"/gnupg
+
+export PATH="$HOME/.cargo/bin:$PATH"

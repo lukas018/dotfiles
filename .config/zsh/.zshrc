@@ -168,7 +168,7 @@ preexec() { echo -ne '\e[5 q' ;}
 
 # Load syntax highlighting
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null
-alias config='/usr/bin/git --git-dir=/home/lukas/.cfg/ --work-tree=/home/lukas'
+alias config='/usr/bin/git --git-dir=/home/luklun/.cfg/ --work-tree=/home/luklun'
 
 
 source ~/.cache/wal/colors.sh
@@ -183,5 +183,5 @@ export color12_alpha="#22${color12/'#'}"
 export color14_alpha="#22${color14/'#'}"
 export color16_alpha="#22${color16/'#'}"
 
-
+alias python="python3.8"
 # HISTFILE="$ZDODIR/zsh_history"
