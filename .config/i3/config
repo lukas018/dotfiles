@@ -194,10 +194,10 @@ client.focused_inactive $bg     $bg     $fg  $bg       $bg
 client.unfocused        $bg     $bg     $fg  $bg       $bg
 client.urgent           $bg     $bg     $fg  $bg       $bg
 client.placeholder      $bg     $bg     $fg  $bg       $bg
-
-client.background        $bg
+client.background       $bg
 
 bindsym $mod+d exec rofi -lines 12 -padding 18 -width 60 -location 0 -show drun -sidebar-mode -columns 3
+bindsym Shift+$mod+f exec rofi -lines 12 -padding 18 -width 60 -location 0 -show window -sidebar-mode -columns 3 -show-icons
 
 set $mode_gaps Gaps: (o) outer, (i) inner
 set $mode_gaps_outer Outer Gaps: +|-|0 (local), Shift + +|-|0 (global)
@@ -240,6 +240,7 @@ mode "$mode_gaps_outer" {
 
 }
 
+<<<<<<< HEAD
 # Set the wallpaper
 exec --no-startup-id $HOME/.fehbg
 # Start compton(compositor) as a daemon
@@ -249,6 +250,23 @@ exec_always --no-startup-id wal -R
 # Launch polybar
 exec_always --no-startup-id $HOME/.config/polybar/scripts/launch.sh
 # exec --no-startup-id xsettingsd &
+=======
+# autostart
+# Set background
+exec --no-startup-id $HOME/.fehbg
+# Start compton compositor for nice transparancy
+exec --no-startup-id compton -b
+# Start xsettings daemon to interact with X11
+exec --no-startup-id xsettingsd &
+
+# Automatically launch polybar and reload pywal color scheme
+exec_always --no-startup-id "~/.local/bin/wal -R"
+exec_always --no-startup-id "zsh ~/.local/bin/scripts/launch-polybar"
+
+# Keyboard remappings
+# Change keyboard layout with alt+shift
+exec_always "setxkbmap -model pc104 -layout us,se -variant ,, -option grp:alt_shift_toggle"
+>>>>>>> 890d56c278f7675c3375a0b4d405e83be2a2f793
 
 # Switch between swedish and american keyboard using alt+shift
 exec_always "setxkbmap -model pc104 -layout us,se -variant ,, -option grp:alt_shift_toggle"
@@ -261,6 +279,7 @@ bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT
 bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
 bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
+<<<<<<< HEAD
 
 # bindsym $mod+; exec --no-startup-id pactl set-sink-volume 0 -10%
 # bindsym $mod+. exec --no-startup-id pactl set-sink-volume 0 +10%
@@ -268,3 +287,5 @@ bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOU
 
 bindsym $mod+Shift+p exec /home/luklun/.profile
 exec_always wal -R
+=======
+>>>>>>> 890d56c278f7675c3375a0b4d405e83be2a2f793

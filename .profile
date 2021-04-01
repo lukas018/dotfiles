@@ -1,5 +1,5 @@
 export TERMINAL='alacritty'
-export EDITOR='emacs'
+export EDITOR='emacsclient'
 
 # If not running interactively, don't do anything
 # [[ $- != *i* ]] && return
@@ -15,4 +15,3 @@ setxkbmap -option ctrl:nocaps
 setxkbmap -model pc104 -layout us,se -variant ,, -option grp:alt_shift_toggle
 $HOME/.fehbg
 compton -b
-#sleeper&

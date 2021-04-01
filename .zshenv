@@ -1,6 +1,6 @@
-[ -z "$XDG_CONFIG_HOME"] && export XDG_CONFIG_HOME=$HOME/.config
-[ -z "$XDG_CACHE_HOME"] && export XDG_CACHE_HOME=$HOME/.cache
-[ -z "$XDG_DATA_HOME"] && export XDG_DATA_HOME=$HOME/.local/share
+[ -z "$XDG_CONFIG_HOME" ] && export XDG_CONFIG_HOME=$HOME/.config
+[ -z "$XDG_CACHE_HOME" ] && export XDG_CACHE_HOME=$HOME/.cache
+[ -z "$XDG_DATA_HOME" ] && export XDG_DATA_HOME=$HOME/.local/share
 
 export XINITRC="$XDG_CONFIG_HOME"/X11/xinitrc
 
@@ -22,6 +22,7 @@ alias='wget --hsts-file="$XDG_CACHE_HOME/wget-hsts'
 
 export GNUPGHOME="$XDG_DATA_HOME"/gnupg
 
+<<<<<<< HEAD
 # If you come from bash you might have to change your $PATH.
 export PATH=$HOME/bin:/usr/local/bin:$PATH
 
@@ -44,3 +45,8 @@ PATH=$JAVA_HOME/bin:$PATH
 export PATH=/usr/local/texlive/2019/bin/x86_64-linux:$PATH
 
 export PATH=/usr/luklun/bin:$PATH
+=======
+export FONT="Source Code Pro Semibold"
+
+export PATH=$HOME/Repos/Pico/pico-8:$PATH
+>>>>>>> 890d56c278f7675c3375a0b4d405e83be2a2f793

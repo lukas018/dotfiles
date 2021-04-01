@@ -1,6 +1,6 @@
 #+TITLE: Lukas' Doom Emacs Config
 #+AUTHOR: Lukas Lundmark
-#+EMAIL: lukas.lundmark@foi.se
+#+EMAIL: lukas.ludmark@foi.se
 #+DESCRIPTION: Lukas' personal Doom Emacs config.
 #+STARTUP: showeverything
 #+PROPERTY: header-args :results silent :tangle config.el
@@ -12,28 +12,39 @@
   - [[#disable-line-numbers][Disable line numbers]]
   - [[#add-local-leaders][Add Local Leaders]]
   - [[#words-in-emacs][Words in Emacs]]
+  - [[#add-extra-leader][Add Extra Leader]]
+  - [[#words-in-emacs-1][WORDS in Emacs]]
+  - [[#linenumbers][Linenumbers]]
+  - [[#disabling-doom-theme-and-using-emacs-nano][Disabling Doom Theme and using Emacs NANO]]
+  - [[#doom-theme][DOOM THEME]]
   - [[#auto-fill][AUTO-FILL]]
   - [[#which-key][WHICH-KEY]]
   - [[#ivy-preview-buffer][ivy-preview-buffer]]
+  - [[#which-key-mode-line-fix][WHICH-KEY Mode Line Fix]]
+- [[#line-settings][LINE SETTINGS]]
 - [[#bookmarks-and-buffers][BOOKMARKS AND BUFFERS]]
 - [[#dired][DIRED]]
-- [[#doom-theme][DOOM THEME]]
+- [[#doom-theme-1][DOOM THEME]]
 - [[#elfeed][ELFEED]]
 - [[#evaluate-elisp-expressions][EVALUATE ELISP EXPRESSIONS]]
 - [[#fonts][FONTS]]
 - [[#ivy][IVY]]
-- [[#line-settings][LINE SETTINGS]]
+- [[#line-settings-1][LINE SETTINGS]]
 - [[#manpages][MANPAGES]]
 - [[#mastodon][MASTODON]]
 - [[#neotree][NEOTREE]]
 - [[#open-specific-files][OPEN SPECIFIC FILES]]
+- [[#org-mode][ORG MODE]]
 - [[#registers][REGISTERS]]
 - [[#shells][SHELLS]]
 - [[#splits][SPLITS]]
+- [[#sublimity][SUBLIMITY]]
 - [[#winner-mode][WINNER MODE]]
 - [[#pdf][PDF]]
 - [[#frog-jump-buffer][FROG-JUMP-BUFFER]]
+- [[#frog-jump-buffer-1][Frog-Jump-Buffer]]
 - [[#modified-window-splits][MODIFIED WINDOW SPLITS]]
+- [[#modified-window-splits-1][Modified window splits]]
 - [[#telegram][Telegram]]
 - [[#elfeed-1][Elfeed]]
 - [[#misc-1][MISC]]
@@ -41,7 +52,7 @@
   - [[#let-tramp-use-remote-path][Let tramp use remote path]]
 - [[#python-environemt][PYTHON ENVIRONEMT]]
 - [[#other-languages][OTHER LANGUAGES]]
-- [[#org-mode][ORG-MODE]]
+- [[#org-mode-1][ORG-MODE]]
   - [[#org-mode-configs][ORG-MODE-CONFIGS]]
   - [[#org-super-agenda][ORG-SUPER-AGENDA]]
   - [[#org-chef][ORG-CHEF]]
@@ -51,12 +62,26 @@
   - [[#org-transclusion][ORG-TRANSCLUSION]]
   - [[#org-mode-keybindings][ORG-MODE KEYBINDINGS]]
 - [[#eaf][EAF]]
+- [[#exwm][EXWM]]
+  - [[#prepare-setup][Prepare Setup]]
+  - [[#initialize-the-actual-wm][Initialize the actual WM]]
+  - [[#helm-exwm][HELM-EXWM]]
+  - [[#additional-key-configurations][Additional Key Configurations]]
+  - [[#desktop-environment][Desktop Environment]]
+- [[#telegram-1][Telegram]]
+- [[#elfeed-2][Elfeed]]
+- [[#misc-2][MISC]]
+  - [[#extract-system-variables-1][Extract system variables]]
+- [[#python-environemt-1][PYTHON ENVIRONEMT]]
+- [[#other-languages-1][Other languages]]
+- [[#testing][Testing]]
 
 * ABOUT THIS CONFIG
 This is my personal Doom Emacs config.  Doom Emacs is a distribution of Emacs that uses the "evil" keybindings (Vim keybindings) and includes a number of nice extensions and a bit of configuration out of the box.  I am maintaing this config not just for myself, but also for those that want to explore some of what is possible with Emacs.  I will add a lot of examples of plugins and settings, some of them I may not even use personally.  I do this because many people following me on YouTube look at my configs as "documentation".
 
 * MISC
 Here we do some very small quality of life fixes
+<<<<<<< HEAD
 
 ** Undo Tree Mode
 #+begin_src emacs-lisp :tangle yes
@@ -84,10 +109,57 @@ By default Emacs doesn't consider underscores to be word-characters. We change t
 (modify-syntax-entry ?_ "w")
 #+end_src
 
+=======
+** Add Extra Leader
+We set control space to an extra leader.
+#+begin_src emacs-lisp
+(map! :map general-override-mode-map
+    :n " C-SPC" #'doom/leader
+    :ei "C-SPC" #'doom/leader)
+
+(map! :map general-override-mode-map
+    :n " M-SPC" #'doom/leader
+    :ei "M-SPC" #'doom/leader)
+#+end_src
+
+** WORDS in Emacs
+
+By default Emacs doesn't consider underscores to be word-characters. We change this to make evil-mode feel more like *vim*.
+#+BEGIN_SRC emacs-lisp
+    ;; Consider _ as a word-character
+    (modify-syntax-entry ?_ "w")
+#+END_SRC
+
+** Linenumbers
+
+** Disabling Doom Theme and using Emacs NANO
+#+begin_src emacs-lisp
+;; (setq doom-theme 'nil)
+;; (require 'disp-table)
+;; (require 'nano-theme-dark)
+;; (require 'nano-help)
+;; (require 'nano-modeline)
+;; (require 'nano-layout)
+#+end_src
+
+
+** DOOM THEME
+Allows us to change emacs theme using <Leader> h t
+#+BEGIN_SRC emacs-lisp
+(setq doom-theme 'doom-city-lights)
+
+(map! :leader
+      :desc "Load new theme"
+      "h t" 'counsel-load-theme)
+#+END_SRC
+
+
+>>>>>>> 890d56c278f7675c3375a0b4d405e83be2a2f793
 ** AUTO-FILL
 Auto-fill is a god-damn scourge. Lets disable it globally.
 
 #+begin_src emacs-lisp
+<<<<<<< HEAD
 (turn-off-auto-fill)
 #+end_src
 
@@ -105,22 +177,59 @@ Auto-fill is a god-damn scourge. Lets disable it globally.
 #+begin_src emacs-lisp :tangle yes
 (setq +ivy-buffer-preview t)
 #+end_src
+=======
+    (turn-off-auto-fill)
+#+end_src
+
+** WHICH-KEY Mode Line Fix
+    For some reason the doom mode-line sometimes covers the lower row of the which-key buffer (for certain settings).
+    This setting fixes the problem to some extent by adding an extra line worth of height to the which-key buffer.
+
+#+begin_src emacs-lisp :tangle yes
+    ;; Add an extra line to work around bug in which-key imprecise
+    (defun add-which-key-line (f &rest r) (progn (apply f (list (cons (+ 1 (car (car r))) (cdr (car r)))))))
+    (advice-add 'which-key--show-popup :around #'add-which-key-line)
+#+end_src
+
+* LINE SETTINGS
+Disable line numbers by default.
+Doom by default uses 'SPC t l' for changing between line styles.
+Use 'SPC t t' for toggle-truncate-lines.
+
+#+BEGIN_SRC emacs-lisp
+(setq display-line-numbers-type nil)
+(setq display-line-numbers nil)
+
+(map! :leader
+      :desc "Toggle truncate lines"
+      "t t" 'toggle-truncate-lines)
+#+END_SRC
+>>>>>>> 890d56c278f7675c3375a0b4d405e83be2a2f793
 
 * BOOKMARKS AND BUFFERS
 Doom Emacs uses 'SPC b' for keybindings related to bookmarks and buffers.  Bookmarks are somewhat like registers in that they record positions you can jump to.  Unlike registers, they have long names, and they persist automatically from one Emacs session to the next. The prototypical use of bookmarks is to record where you were reading in various files.  Regarding /buffers/, the text you are editing in Emacs resides in an object called a /buffer/. Each time you visit a file, a buffer is used to hold the file’s text. Each time you invoke Dired, a buffer is used to hold the directory listing.
 
+<<<<<<< HEAD
 #+begin_src emacs-lisp
+=======
+#+BEGIN_SRC emacs-lisp
+>>>>>>> 890d56c278f7675c3375a0b4d405e83be2a2f793
 (map! :leader
       :desc "List bookmarks"
       "b L" 'list-bookmarks
       :leader
       :desc "Save current bookmarks to bookmark file"
       "b w" 'bookmark-save)
+<<<<<<< HEAD
 #+end_src
+=======
+#+END_SRC
+>>>>>>> 890d56c278f7675c3375a0b4d405e83be2a2f793
 
 * DIRED
 Dired is the file manager within Emacs.  Below, I setup keybindings for image previews (peep-dired).  Doom Emacs does not use 'SPC d' for any of its keybindings, so I've chosen the format of 'SPC d' plus 'key'.
 
+<<<<<<< HEAD
 #+begin_src emacs-lisp
 (map! :leader
       (:prefix ("d" . "dired")
@@ -136,6 +245,23 @@ Dired is the file manager within Emacs.  Below, I setup keybindings for image pr
          :desc "Dired view file" "v" 'dired-view-file))))
 
 #+end_src
+=======
+#+BEGIN_SRC emacs-lisp
+(map! :leader
+      (:prefix ("d" . "dired")
+        :desc "Dired open" "d" 'dired
+        :desc "Dired jump to current" "j" 'dired-jump
+        (:mode dired
+            (:map dired-mode-map
+                (:prefix ("n" . "narrow")
+                    :desc "Narrow (default)" "n" 'dired-narrow
+                    :desc "Narrow (regex)" "r" 'dired-narrow-regexp
+                    :desc "Narrow (fuzzy)" "f" 'dired-narrow-fuzzy)
+                :desc "Peep-dired" "p" 'peep-dired
+                :desc "Dired view file" "v" 'dired-view-file))))
+
+#+END_SRC
+>>>>>>> 890d56c278f7675c3375a0b4d405e83be2a2f793
 
 Adds support for navigation when inspecting (peeping) files.
 #+begin_src emacs-lisp
@@ -160,6 +286,7 @@ Dired-subtree enables expanding directories. These keybindings attempts emulate 
 (add-hook 'dired-subtree-hook 'evil-normalize-keymaps)
 #+end_src
 
+<<<<<<< HEAD
 * DOOM THEME
 Setting the theme to doom-one.  To try out new themes, I set a keybinding for counsel-load-theme with 'SPC h t'.
 
@@ -172,6 +299,8 @@ Setting the theme to doom-one.  To try out new themes, I set a keybinding for co
 #+END_SRC
 
 
+=======
+>>>>>>> 890d56c278f7675c3375a0b4d405e83be2a2f793
 * ELFEED
 An RSS newsfeed reader for Emacs.
 
@@ -202,6 +331,7 @@ Changing some keybindings from their defaults to better fit with Doom Emacs, and
 #+BEGIN_SRC emacs-lisp :tangle yes
 (map! :leader
       (:prefix ("e" . "eval")
+<<<<<<< HEAD
        :desc "Evaluate elisp in buffer" "b" 'eval-buffer
        :desc "Evaluate defun" "d" 'eval-defun
        :desc "Evaluate elisp expression" "e" 'eval-expression
@@ -211,6 +341,17 @@ Changing some keybindings from their defaults to better fit with Doom Emacs, and
         :desc "Evaluate org subtree" "s" 'org-babel-execute-src-block
         :desc "Evaluate org buffer" "e" 'org-babel-execute-buffer
         :desc "Evaluate org code block" "b" 'org-babel-execute-src-block)))
+=======
+        :desc "Evaluate elisp in buffer" "b" 'eval-buffer
+        :desc "Evaluate defun" "d" 'eval-defun
+        :desc "Evaluate elisp expression" "e" 'eval-expression
+        :desc "Evaluate last sexpressio" "l" 'eval-last-sexp
+        :desc "Evaluate elisp in region"  "r" 'eval-region
+        (:prefix ("o" . "org")
+          :desc "Evaluate org subtree" "s" 'org-babel-execute-src-block
+          :desc "Evaluate org buffer" "e" 'org-babel-execute-buffer
+          :desc "Evaluate org code block" "b" 'org-babel-execute-src-block)))
+>>>>>>> 890d56c278f7675c3375a0b4d405e83be2a2f793
 #+END_SRC
 
 * FONTS
@@ -222,7 +363,11 @@ Settings related to fonts within Doom Emacs:
 + 'font-lock-keyword-face' -- for keywords with special significance, like ‘for’ and ‘if’ in C.
 
 #+BEGIN_SRC emacs-lisp
+<<<<<<< HEAD
 (setq doom-font (font-spec :family "Source Code Pro" :size 12))
+=======
+(setq doom-font (font-spec :family "RobotoMono" :size 12))
+>>>>>>> 890d56c278f7675c3375a0b4d405e83be2a2f793
 (after! doom-themes
   (setq doom-themes-enable-bold t
         doom-themes-enable-italic t))
@@ -230,12 +375,16 @@ Settings related to fonts within Doom Emacs:
 (custom-set-faces!
   '(font-lock-comment-face :slant italic)
   '(font-lock-keyword-face :slant italic))
+<<<<<<< HEAD
 
+=======
+>>>>>>> 890d56c278f7675c3375a0b4d405e83be2a2f793
 #+END_SRC
 
 * IVY
 Ivy is a generic completion mechanism for Emacs.  By default, Doom Emacs does not use 'SPC v', so the format I use for these bindings is 'SPC v' plus 'key'.
 
+<<<<<<< HEAD
 #+begin_src emacs-lisp :tangle yes
 (map! :leader
       (:prefix ("v" . "ivy")
@@ -256,11 +405,57 @@ I display-line-numbers-type set to 'relative so I have line numbers displayed si
       :desc "Toggle truncate lines"
       "t t" 'toggle-truncate-lines)
 #+END_SRC
+=======
+#+BEGIN_SRC emacs-lisp
+(map! :leader
+      (:prefix ("v" . "ivy")
+        :desc "Ivy push view" "p" 'ivy-push-view
+        :desc "Ivy switch view" "s" 'ivy-switch-view))
+#+END_SRC
+
+# ivy-posframe allows us to add floating windows
+
+# #+begin_src emacs-lisp :tangle yes
+
+# (require 'ivy-posframe)
+# (after! ivy-posframe
+#   (setq ivy-posframe-display-functions-alist
+#       '((counsel-linux-app     . ivy-posframe-display-at-frame-center)
+#         (nil               . ivy-posframe-display)))
+#   (setq ivy-posframe-parameters
+#       '((left-fringe . 8)
+#         (right-fringe . 8)))
+#   (setq ivy-posframe-width 150
+#       ivy-posframe-height 30)
+#   (setq ivy-posframe-parameters '((parent-frame nil))))
+
+# (defun ivy-posframe-get-size ()
+#   "The default functon used by `ivy-posframe-size-function'."
+#   (list
+#     :height ivy-posframe-height
+#     :width ivy-posframe-width))
+#     ;; :min-height ivy-posframe-height
+#     ;; :min-width ivy-posframe-width))
+#    ;; :min-height (or ivy-posframe-min-height (+ ivy-height 1))
+#    ;; :min-width (or ivy-posframe-min-width (round (* (frame-width) 0.62)))))
+
+# (ivy-posframe-mode 1)
+
+# (map! :leader
+#       (:prefix ("o")
+#         :desc "Launch linux exe" "x" 'counsel-linux-app))
+
+#+end_src
+>>>>>>> 890d56c278f7675c3375a0b4d405e83be2a2f793
 
 * MANPAGES
 
 #+BEGIN_SRC emacs-lisp
+<<<<<<< HEAD
 (use-package! ox-groff)
+=======
+(require 'ox-groff)
+>>>>>>> 890d56c278f7675c3375a0b4d405e83be2a2f793
 #+END_SRC
 
 * MASTODON
@@ -302,12 +497,83 @@ Keybindings to open files that I work with all the time using the find-file comm
 ;;           :desc "Edit doom init.el" "i" '(lambda () (interactive) (find-file "~/.doom.d/init.el")))))
 #+END_SRC
 
+<<<<<<< HEAD
+=======
+* ORG MODE
+Note that I wrapped most of this in (after! org).  Without this, my settings might be evaluated too early, which will result in my settings being overwritten by Doom's defaults.  I have also enabled org-journal by adding (+journal) to the org section of my Doom Emacs init.el.
+
+#+BEGIN_SRC emacs-lisp
+(after! org
+  (require 'org-bullets)  ; Nicer bullets in org-mode
+  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+  ;; Allow for latex-previews of equations
+  (add-hook 'org-mode-hook 'org-fragtog-mode)
+  ;; Disable Autofill Mode in Org Buffer
+  (auto-fill-mode -1)
+  (setq org-directory "~/Org/"
+        org-agenda-files '("~/Org/agenda.org")
+        org-default-notes-file (expand-file-name "notes.org" org-directory)
+        org-ellipsis " ▼ "
+        org-log-done 'time
+        org-journal-dir "~/Org/journal/"
+        org-journal-date-format "%B %d, %Y (%A)"
+        org-journal-file-format "%Y-%m-%d.org"
+        org-hide-emphasis-markers t
+        ;; ex. of org-link-abbrev-alist in action
+        ;; [[arch-wiki:Name_of_Page][Description]]
+        org-link-abbrev-alist    ; This overwrites the default Doom org-link-abbrev-list
+          '(("google" . "http://www.google.com/search?q=")
+            ("arch-wiki" . "https://wiki.archlinux.org/index.php/")
+            ("ddg" . "https://duckduckgo.com/?q=")
+            ("wiki" . "https://en.wikipedia.org/wiki/"))
+        org-todo-keywords        ; This overwrites the default Doom org-todo-keywords
+          '((sequence
+             "TODO(t)"           ; A task that is ready to be tackled
+             "BLOG(b)"           ; Blog writing assignments
+             "GYM(g)"            ; Things to accomplish at the gym
+             "PROJ(p)"           ; A project that contains other tasks
+             "VIDEO(v)"          ; Video assignments
+             "WAIT(w)"           ; Something is holding up this task
+             "|"                 ; The pipe necessary to separate "active" states and "inactive" states
+             "DONE(d)"           ; Task has been completed
+             "CANCELLED(c)" )))) ; Task has been cancelled
+#+END_SRC
+
+Automatically initialize the correct ispell dictionary based on Org document keywords
+#+BEGIN_SRC emacs-lisp
+(defun luklun/get-org-file-keyword (KEYWORD)
+  "Get the value from a line like this ,#+KEYWORD: value in a file."
+  (interactive)
+  (let ((case-fold-search t)
+        (re (format "^#\\+%s:[ \t]+\\([^\t\n]+\\)" KEYWORD)))
+    (if (not (save-excursion
+               (or (re-search-forward re nil t)
+                   (re-search-backward re nil t))))
+        (error (format "No line containing #+%s: value found" KEYWORD)))
+    (match-string 1)))
+
+(defun luklun/org-init-ispell ()
+    "Initialize the correct ispell dictionary for the org-document if it LANG keyword is specified"
+    (let ((lang (luklun/get-org-file-keyword "LANG")))
+       (when lang
+            (display-message-or-buffer "Setting ispell dictionary to %s" lang)
+            (ispell-change-dictionary lang))))
+
+(after! org
+ (add-hook 'org-mode-hook 'luklun/org-init-ispell))
+#+END_SRC
+>>>>>>> 890d56c278f7675c3375a0b4d405e83be2a2f793
 
 * REGISTERS
 Emacs registers are compartments where you can save text, rectangles and positions for later use. Once you save text or a rectangle in a register, you can copy it into the buffer once or many times; once you save a position in a register, you can jump back to that position once or many times.  The default GNU Emacs keybindings for these commands (with the exception of counsel-register) involves 'C-x r' followed by one or more other keys.  I wanted to make this a little more user friendly, and since I am using Doom Emacs, I choose to replace the 'C-x r' part of the key chords with 'SPC r'.
 
+<<<<<<< HEAD
 | COMMAND                          | DESCRIPTION                        | KEYBINDING |
 |----------------------------------+------------------------------------+------------|
+=======
+| COMMAND                          | DESCRIPTION                      | KEYBINDING |
+|----------------------------------+----------------------------------+------------|
+>>>>>>> 890d56c278f7675c3375a0b4d405e83be2a2f793
 | copy-to-register                 | /Copy to register/                 | SPC r c    |
 | frameset-to-register             | /Frameset to register/             | SPC r f    |
 | insert-register                  | /Insert contents of register/      | SPC r i    |
@@ -323,6 +589,7 @@ Emacs registers are compartments where you can save text, rectangles and positio
 #+BEGIN_SRC emacs-lisp
 (map! :leader
       (:prefix ("r" . "registers")
+<<<<<<< HEAD
        :desc "Copy to register" "c" 'copy-to-register
        :desc "Framset to register" "f" 'frameset-to-register
        :desc "Insert contents of register" "i" 'insert-register
@@ -332,6 +599,17 @@ Emacs registers are compartments where you can save text, rectangles and positio
        :desc "Window configuration to register" "w" 'window-configuration-to-register
        :desc "Increment register" "+" 'increment-register
        :desc "Point to register" "SPC" 'point-to-register))
+=======
+        :desc "Copy to register" "c" 'copy-to-register
+        :desc "Framset to register" "f" 'frameset-to-register
+        :desc "Insert contents of register" "i" 'insert-register
+        :desc "Jump to register" "j" 'jump-to-register
+        :desc "Interactively choose a register" "i" 'counsel-register
+        :desc "View a register" "v" 'view-register
+        :desc "Window configuration to register" "w" 'window-configuration-to-register
+        :desc "Increment register" "+" 'increment-register
+        :desc "Point to register" "SPC" 'point-to-register))
+>>>>>>> 890d56c278f7675c3375a0b4d405e83be2a2f793
 #+END_SRC
 
 * SHELLS
@@ -340,7 +618,11 @@ Settings for the various shells and terminal emulators within Emacs.
 + 'eshell-aliases-file' -- sets an aliases file for the eshell.
 
 #+BEGIN_SRC emacs-lisp
+<<<<<<< HEAD
 (setq shell-file-name "/usr/bin/fish"
+=======
+(setq shell-file-name "/bin/zsh"
+>>>>>>> 890d56c278f7675c3375a0b4d405e83be2a2f793
       eshell-aliases-file "~/.doom.d/aliases")
 #+END_SRC
 
@@ -357,6 +639,19 @@ I set splits to default to opening on the right using 'prefer-horizontal-split'.
       "b c" 'clone-indirect-buffer-other-window)
 #+END_SRC
 
+<<<<<<< HEAD
+=======
+* SUBLIMITY
+The sublimity extension offers Sublime-like smooth scrolling and an experimental minimap.  You can also require sublimity-attractive if you want to center everything for a distraction-free mode.  I do not use this extension, hence the reason I have sublimity-mode set to 0.  Set this to 1 to enable it.
+
+#+BEGIN_SRC emacs-lisp
+(require 'sublimity-scroll)
+(require 'sublimity-map)
+(require 'sublimity-attractive)
+(sublimity-mode 0)
+#+END_SRC
+
+>>>>>>> 890d56c278f7675c3375a0b4d405e83be2a2f793
 * WINNER MODE
 Winner mode has been included with GNU Emacs since version 20.  This is a global minor mode and, when activated, it allows you to “undo” (and “redo”) changes in the window configuration with the key commands 'SCP w <left>' and 'SPC w <right>'.
 
@@ -373,6 +668,7 @@ Winner mode has been included with GNU Emacs since version 20.  This is a global
 Dark-mode is a requirement for any pdf-reader!
 #+BEGIN_SRC emacs-lisp
 (after! pdf-view
+<<<<<<< HEAD
   (add-hook 'pdf-tools-enabled-hook 'pdf-view-midnight-minor-mode))
 #+END_SRC
 
@@ -384,10 +680,23 @@ Dark-mode is a requirement for any pdf-reader!
   (map! :leader
         :desc "Frog Buffer Jumper"
         "b j" 'frog-jump-buffer))
+=======
+    (add-hook 'pdf-tools-enabled-hook 'pdf-view-midnight-minor-mode))
+#+END_SRC
+
+
+* Frog-Jump-Buffer
+#+begin_src emacs-lisp
+(use-package frog-jump-buffer)
+(map! :leader
+    :desc "Frog Buffer Jumper"
+    "b j" 'frog-jump-buffer)
+>>>>>>> 890d56c278f7675c3375a0b4d405e83be2a2f793
 #+end_src
 
 #+begin_src emacs-lisp
 (defun split-window-prefer-horizonally (window)
+<<<<<<< HEAD
   "If there's only one window (excluding any possibly active
 minibuffer), then split the current window horizontally."
   (if (and (one-window-p t)
@@ -395,11 +704,24 @@ minibuffer), then split the current window horizontally."
       (let ((split-height-threshold nil))
         (split-window-sensibly window))
     (split-window-sensibly window)))
+=======
+"If there's only one window (excluding any possibly active
+minibuffer), then split the current window horizontally."
+(if (and (one-window-p t)
+    (not (active-minibuffer-window)))
+(let ((split-height-threshold nil))
+    (split-window-sensibly window))
+(split-window-sensibly window)))
+>>>>>>> 890d56c278f7675c3375a0b4d405e83be2a2f793
 
 (setq split-window-preferred-function 'split-window-prefer-horizonally)
 #+end_src
 
+<<<<<<< HEAD
 * MODIFIED WINDOW SPLITS
+=======
+* Modified window splits 
+>>>>>>> 890d56c278f7675c3375a0b4d405e83be2a2f793
 
 By default emacs doesn't follow when a windows are split.
 These wrappers fixes this, and also offers the option of providing a target buffer.
@@ -456,7 +778,11 @@ When ARG is non-nil, ignore NoDisplay property in *.desktop files."
             :action #'+exwm/counsel-linux-app-action-open-new
             :caller 'counsel-linux-app))
 
+<<<<<<< HEAD
 ;; Replace the default splits functionality
+=======
+;; Replace the default splita functionality
+>>>>>>> 890d56c278f7675c3375a0b4d405e83be2a2f793
 (map! :leader
       :desc "Split vertically and follow"
       "w v" '+evil/vsplit-follow
@@ -475,6 +801,7 @@ When ARG is non-nil, ignore NoDisplay property in *.desktop files."
       "o v" '+evil/vsplit-follow-vterm)
 #+end_src
 
+<<<<<<< HEAD
 * Telegram
     #+begin_src emacs-lisp
 (use-package! telega
@@ -1082,4 +1409,327 @@ Add some useful key mappings
 
 #+begin_src emacs-lisp :tangle yes
 (setq company-idle-delay 0)
+=======
+* EXWM
+** Prepare Setup
+#+begin_src emacs-lisp :tangle yes
+
+  (defun efs/run-in-background (command)
+    (let ((command-parts (split-string command "[ ]+")))
+      (apply #'call-process `(,(car command-parts) nil 0 nil ,@(cdr command-parts)))))
+
+  (defun efs/set-wallpaper ()
+    (interactive)
+    ;; NOTE: You will need to update this to a valid background path!
+    (start-process-shell-command
+        "feh" nil  "feh --bg-scale /usr/share/backgrounds/matt-mcnulty-nyc-2nd-ave.jpg"))
+
+  (defun efs/exwm-init-hook ()
+    ;; Make workspace 1 be the one where we land at startup
+    (exwm-workspace-switch-create 1)
+
+    ;; Open eshell by default
+    ;;(eshell)
+    ;; Show battery status in the mode line
+    (display-battery-mode 1)
+
+    ;; Show the time and date in modeline
+    (setq display-time-day-and-date t)
+    (display-time-mode 1)
+    ;; Also take a look at display-time-format and format-time-string
+
+    ;; Launch apps that will run in the background
+    (efs/run-in-background "nm-applet")
+    (efs/run-in-background "pasystray")
+    (efs/run-in-background "blueman-applet"))
+
+  (defun efs/exwm-update-class ()
+    (exwm-workspace-rename-buffer exwm-class-name))
+
+#+end_src
+
+** Initialize the actual WM
+#+begin_src emacs-lisp :tangle yes
+  (use-package exwm
+    :config
+    ;; Set the default number of workspaces
+    (setq exwm-workspace-number 10)
+
+    ;; When window "class" updates, use it to set the buffer name
+    (add-hook 'exwm-update-class-hook #'efs/exwm-update-class)
+
+    ;; When EXWM starts up, do some extra confifuration
+    (add-hook 'exwm-init-hook #'efs/exwm-init-hook)
+
+    ;; Rebind CapsLock to Ctrl
+    (start-process-shell-command "xmodmap" nil "xmodmap ~/.emacs.d/exwm/Xmodmap")
+
+    ;; Set the screen resolution (update this to be the correct resolution for your screen!)
+    ;; (require 'exwm-randr)
+    ;; (exwm-randr-enable)
+    ;; (start-process-shell-command "xrandr" nil "xrandr --output Virtual-1 --primary --mode 2048x1152 --pos 0x0 --rotate normal")
+
+    ;; Set the wallpaper after changing the resolution
+    (efs/set-wallpaper)
+
+    ;; Load the system tray before exwm-init
+    ;; (require 'exwm-systemtray)
+    ;; (setq exwm-systemtray-height 32)
+    ;; (exwm-systemtray-enable)
+
+    ;; These keys should always pass through to Emacs
+    (setq exwm-input-prefix-keys
+      '(?\C-x
+        ?\C-u
+        ?\C-h
+        ?\M-x
+        ?\M-`
+        ?\M-\
+        ?\M-&
+        ?\M-:
+        ?\C-\M-j  ;; Buffer list
+        ?\C-\ ;; Ctrl+Space
+        ?\ ;; Ctrl+Space
+    ))
+
+    ;; Ctrl+Q will enable the next key to be sent directly
+    (define-key exwm-mode-map [?\C-q] 'exwm-input-send-next-key)
+
+    ;; Set up global key bindings.  These always work, no matter the input state!
+    ;; Keep in mind that changing this list after EXWM initializes has no effect.
+    (setq exwm-input-global-keys
+          `(
+            ;; Reset to line-mode (C-c C-k switches to char-mode via exwm-input-release-keyboard)
+            ([?\s-r] . exwm-reset)
+
+            ;; Move between windows
+            ([s-left] . windmove-left)
+            ([s-right] . windmove-right)
+            ([s-up] . windmove-up)
+            ([s-down] . windmove-down)
+
+            ([?\s-h] . evil-window-left)
+            ([?\s-j] . evil-window-down)
+            ([?\s-k] . evil-window-up)
+            ([?\s-l] . evil-window-right)
+
+            ;; Kill buffer
+            ([?\s-q] . kill-this-buffer)
+            ([?\s-Q] . +workspace/close-window-or-workspace)
+
+            ;; Move windows
+            ([?\s-H] . +evil/window-move-left)
+            ([?\s-J] . +evil/window-move-down)
+            ([?\s-K] . +evil/window-move-up)
+            ([?\s-L] . +evil/window-move-right)
+            ;; move window to far left or far right with SUPER+CTRL+h,l
+            ([?\s-\C-h] . side-left-window)
+            ([?\s-\C-j] . side-bottom-window)
+            ([?\s-\C-l] . side-right-window)
+            ([?\s-\C-d] . side-window-delete-all)
+            ([?\s-\C-r] . resize-window)
+
+            ;; Launch applications via shell command
+            ([?\s-&] . (lambda (command)
+                         (interactive (list (read-shell-command "$ ")))
+                         (start-process-shell-command command nil command)))
+            ;; move window workspace with SUPER+SHIFT+{0-9}
+            ;; Switch workspace
+            ([?\s-w] . exwm-workspace-switch)
+            ([?\s-`] . (lambda () (interactive) (exwm-workspace-switch-create 0)))
+
+            ([?\s-v] . +evil/vsplit-follow)
+            ([?\s-z] . +evil/split-follow)
+            ;; managing workspaces
+            ([?\s-w] . exwm-workspace-switch)
+            ([?\s-W] . exwm-workspace-swap)
+
+            ;; Toggle between line and char mode
+            ([?\s-e] . exwm-input-toggle-keyboard)
+            ([?\s-/] . exwm-input-release-keyboard)
+            ([?\s-?] . exwm-reset)
+            ;; setting some toggle commands
+            ([?\s-f] . exwm-floating-toggle-floating)
+            ([?\s-m] . exwm-layout-toggle-mode-line)
+            ([f11] . exwm-layout-toggle-fullscreen)
+
+            ;; TODr There has to be a better way of doing this
+            ;; move window workspace with SUPER+SHIFT+{0-9}
+            ([?\s-\)] . (lambda () (interactive) (exwm-workspace-move-window 0)))
+            ([?\s-!] . (lambda () (interactive) (exwm-workspace-move-window 1)))
+            ([?\s-@] . (lambda () (interactive) (exwm-workspace-move-window 2)))
+            ([?\s-#] . (lambda () (interactive) (exwm-workspace-move-window 3)))
+            ([?\s-$] . (lambda () (interactive) (exwm-workspace-move-window 4)))
+            ([?\s-%] . (lambda () (interactive) (exwm-workspace-move-window 5)))
+            ([?\s-^] . (lambda () (interactive) (exwm-workspace-move-window 6)))
+            ([?\s-&] . (lambda () (interactive) (exwm-workspace-move-window 7)))
+            ([?\s-*] . (lambda () (interactive) (exwm-workspace-move-window 8)))
+            ([?\s-\(] . (lambda () (interactive) (exwm-workspace-move-window 9)))
+            ;; 's-N': Switch to certain workspace with Super (Win) plus a number key (0 - 9)
+            ,@(mapcar (lambda (i)
+                        `(,(kbd (format "s-%d" i)) .
+                          (lambda ()
+                            (interactive)
+                            (exwm-workspace-switch-create ,i))))
+                      (number-sequence 0 9))))
+
+
+
+
+    ;; Enable char mode by default in all exwm buffers
+    (setq exwm-manage-configurations '((t char-mode t)))
+    (exwm-enable))
+    #+end_src
+
+** HELM-EXWM
+This nifty little thing allows us to iterate over all active X-window buffers and display it in the current window.
+#+begin_src emacs-lisp
+(use-package helm-exwm
+  :config
+  (setq exwm-layout-show-all-buffers t)
+  (setq helm-exwm-emacs-buffers-source (helm-exwm-build-emacs-buffers-source))
+  (setq helm-exwm-source (helm-exwm-build-source))
+  (setq helm-mini-default-sources `(helm-exwm-emacs-buffers-source
+                                    helm-exwm-source
+                                    helm-source-recentf)))
+
+#+end_src
+** Additional Key Configurations
+We define some additional useful keybindings for launching applications and managing active x-windows.
+#+begin_src emacs-lisp
+    (exwm-input-set-key (kbd "s-d") 'counsel-linux-app)
+    ;; Launch the application in a new window
+    (exwm-input-set-key (kbd "s-D") '+exwm/counsel-linux-app-new-window)
+    ;; List active x-window buffers with helm
+    (exwm-input-set-key (kbd "s-x") 'helm-exwm)
+#+end_src
+
+** Desktop Environment
+The desktop-environment package pre-defines some functionality that is useful for interacting with the operating system.
+We, however, do not want to enable the global minor mode, since this will overwrite some of our keys.
+Instead, we set our own key configurations.
+#+begin_src emacs-lisp
+
+(use-package desktop-environment
+  :after exwm
+
+  :config
+  (exwm-input-set-key (kbd "<s-f6>") 'desktop-environment-brightness-increment)
+  (exwm-input-set-key (kbd "<s-f5>") 'desktop-environment-brightness-decrement)
+  (exwm-input-set-key (kbd "<s-f12>") 'desktop-environment-volume-increment)
+  (exwm-input-set-key (kbd "s-.") 'desktop-environment-volume-increment)
+  (exwm-input-set-key (kbd "<s-f11>") 'desktop-environment-volume-decrement)
+  (exwm-input-set-key (kbd "s-,") 'desktop-environment-volume-decrement)
+  (exwm-input-set-key (kbd "<s-f10>") 'desktop-environment-toggle-mute)
+  (exwm-input-set-key (kbd "s-b") 'desktop-environment-toggle-mute)
+  (exwm-input-set-key (kbd "s-C-p") 'desktop-environment-lock-screen)
+  (exwm-input-set-key (kbd "s-C-b") 'desktop-environment-toggle-bluetooth)
+  :custom
+  (desktop-environment-brightness-small-increment "2%+")
+  (desktop-environment-brightness-small-decrement "2%-")
+  (desktop-environment-brightness-normal-increment "5%+")
+  (desktop-environment-brightness-normal-decrement "5%-"))
+
+#+end_src
+
+* Telegram
+    #+begin_src emacs-lisp
+    (use-package telega
+    :commands telega
+    :config
+    (setq telega-use-tracking-for nil))
+    #+end_src
+
+
+* Elfeed
+
+#+begin_src emacs-lisp
+(use-package elfeed
+  :commands elfeed
+  :config
+  (setq elfeed-feeds
+    '("https://nullprogram.com/feed/"
+        "https://ambrevar.xyz/atom.xml"
+        "https://guix.gnu.org/feeds/blog.atom"
+        "https://valdyas.org/fading/feed/"
+        "https://www.reddit.com/r/emacs/.rss"
+        "https://nitter.net/chris_af_VP/rss"
+        "https://nitter.net/hanifbali/rss"
+        "https://www.youtube.com/feeds/videos.xml?channel_id=UC2eYFnH61tmytImy1mTYvhA"
+        "https://www.youtube.com/feeds/videos.xml?channel_id=UCVls1GmFKf6WlTraIb_IaJg")))
+#+end_src
+
+
+* MISC
+** Extract system variables
+#+begin_src emacs-lisp
+(use-package! exec-path-from-shell
+    :config
+        ;; Load the
+        (when (memq window-system '(mac ns x))
+        (exec-path-from-shell-initialize))
+        ;; Load the shell path when running as a daemon
+        (when (daemonp)
+        (exec-path-from-shell-initialize)))
+#+end_src
+
+
+# ** Let tramp use remote path
+# #+begin_src emacs-lisp
+# (add-to-list 'tramp-remote-path 'tramp-own-remote-path)
+# #+end_src
+
+* PYTHON ENVIRONEMT
+#+begin_src emacs-lisp
+(use-package pyvenv
+  :ensure t
+  :config
+  (pyvenv-mode t)
+
+  ;; Set correct Python interpreter
+  (setq pyvenv-post-activate-hooks
+        (list (lambda ()
+                (setq python-shell-interpreter (concat pyvenv-virtual-env "bin/python3")))))
+  (setq pyvenv-post-deactivate-hooks
+        (list (lambda ()
+                (setq python-shell-interpreter "python3")))))
+
+#+end_src
+
+
+Python LSP over tramp
+#+begin_src emacs-lisp
+;; Use the microsoft server because it is faster
+(use-package lsp-python-ms
+  :ensure t
+  :init (setq lsp-python-ms-auto-install-server t)
+  :hook (python-mode . (lambda ()
+                          (require 'lsp-python-ms)
+                          (lsp))))  ; or lsp-deferred
+
+(lsp-register-client
+    (make-lsp-client :new-connection (lsp-tramp-connection "pyls")
+                     :major-modes '(python-mode)
+                     :remote? t
+                     :server-id 'pyls-remote))
+
+#+end_src
+
+
+* Other languages
+
+Add support for Vue development
+#+begin_src emacs-lisp
+(use-package vue-mode)
+#+end_src
+
+* Testing
+
+#+begin_src emacs-lisp
+(use-package! eaf
+  :config
+  (require 'eaf-evil)
+  (setq eaf-browser-continue-where-left-off t)
+  (setq eaf-evil-leader-key "SPC"))
+>>>>>>> 890d56c278f7675c3375a0b4d405e83be2a2f793
 #+end_src
